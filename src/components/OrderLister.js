@@ -25,7 +25,42 @@ export const OrderLister = () => {
             });
     }
 
-    var rows = orders.map(order => <Typography key={order.id}> {order.id} </Typography>)
+    const modifyOrder = (id) => {
+        Axios.patch(`http://localhost:8080/store/order/${id}`,
+            [{
+                "op": "replace",
+                "path": "/complete",
+                "value": true
+            }],
+            {
+                headers: {
+                    'Content-Type': 'application/json-patch+json',
+                }
+            })
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
+    const deleteOrder = (id) => {
+        Axios.delete(`http://localhost:8080/store/order/${id}`)
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
+    var rows = orders.map(order =>
+        <Stack key={order.id} direction="row">
+            <Typography > {order.id} </Typography>
+            <Button onClick={() => modifyOrder(order.id)} >Complete</Button>
+            <Button onClick={() => deleteOrder(order.id)} >Delete </Button>
+        </Stack>)
 
     return (
         <Stack spacing={2} id="orderMaker">
