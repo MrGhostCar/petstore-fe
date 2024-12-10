@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import {RecoilRoot} from 'recoil';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -9,9 +10,11 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <App />
-    </LocalizationProvider>
+    <RecoilRoot>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <App />
+      </LocalizationProvider>
+    </RecoilRoot>
   </React.StrictMode>
 );
 

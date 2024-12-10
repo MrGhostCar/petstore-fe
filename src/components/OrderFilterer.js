@@ -5,7 +5,7 @@ import * as React from 'react';
 import { useState } from "react";
 import { OrderTable } from "./OrderTable.js"
 
-export const OrderLister = () => {
+export const OrderFilterer = () => {
     const [orders, setOrders] = useState([]);
     const [fromDate, setFromDate] = useState();
     const [toDate, setToDate] = useState();
