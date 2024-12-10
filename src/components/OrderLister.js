@@ -3,6 +3,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import Axios from "axios";
 import * as React from 'react';
 import { useState } from "react";
+import { OrderTable } from "./OrderTable.js"
 
 export const OrderLister = () => {
     const [orders, setOrders] = useState([]);
@@ -25,45 +26,9 @@ export const OrderLister = () => {
             });
     }
 
-    const modifyOrder = (id) => {
-        Axios.patch(`http://localhost:8080/store/order/${id}`,
-            [{
-                "op": "replace",
-                "path": "/complete",
-                "value": true
-            }],
-            {
-                headers: {
-                    'Content-Type': 'application/json-patch+json',
-                }
-            })
-            .then(function (response) {
-                console.log(response);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    }
-
-    const deleteOrder = (id) => {
-        Axios.delete(`http://localhost:8080/store/order/${id}`)
-            .then(function (response) {
-                console.log(response);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    }
-
-    var rows = orders.map(order =>
-        <Stack key={order.id} direction="row">
-            <Typography > {order.id} </Typography>
-            <Button onClick={() => modifyOrder(order.id)} >Complete</Button>
-            <Button onClick={() => deleteOrder(order.id)} >Delete </Button>
-        </Stack>)
 
     return (
-        <Stack spacing={2} id="orderMaker">
+        <Stack spacing={2} id="orderLister">
             <DatePicker
                 label="From date"
                 value={fromDate}
@@ -75,12 +40,8 @@ export const OrderLister = () => {
                 onChange={(newValue) => setToDate(newValue)}
             />
 
-            {rows}
-
-            <Stack spacing={2} direction="row">
-            </Stack>
+            <OrderTable rows={orders}/>
             <Button onClick={getOrders}>Get</Button>
         </Stack>
-
     );
 }

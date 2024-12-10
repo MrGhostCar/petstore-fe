@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState } from "react";
-import { Input, Typography, Stack, Checkbox, Select, MenuItem, Button } from '@mui/material';
+import { FormControl, FormControlLabel, Stack, Checkbox, Select, MenuItem, Button, TextField, InputLabel } from '@mui/material';
 import Axios from "axios";
 
 export const OrderAdder = () => {
@@ -45,48 +45,26 @@ export const OrderAdder = () => {
 
     return (
         <Stack spacing={2} id="orderMaker">
-            <Stack spacing={2} direction="row">
-                <Typography>
-                    PetID:
-                </Typography>
-                <Input value={petId} onChange={handleChangePet}></Input>
-            </Stack>
-
-            <Stack spacing={2} direction="row">
-                <Typography>
-                    Quantity:
-                </Typography>
-                <Input type="text" value={quantity} onChange={handleChangeQuantity} />
-            </Stack>
-
-            <Stack spacing={2} direction="row">
-                <Typography>
-                    Ship date:
-                </Typography>
-                <Input type="text" value={shipDate} onChange={handleChangeDate} />
-            </Stack>
-
-            <Stack spacing={2} direction="row">
-                <Typography>
-                    Status:
-                </Typography>
+            <TextField value={petId} onChange={handleChangePet} label="PetID" variant="filled" />
+            <TextField value={quantity} onChange={handleChangeQuantity} label="Quantity" variant="filled" />
+            <TextField value={shipDate} onChange={handleChangeDate} label="Quantity" variant="filled" />
+            <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Status</InputLabel>
                 <Select
                     labelId="demo-simple-select-label"
                     id="statusSelect"
                     value={status}
                     onChange={handleChangeStatus}
+                    label="Status"
                 >
                     <MenuItem value={"PLACED"}>placed</MenuItem>
                     <MenuItem value={"APPROVED"}>approved</MenuItem>
                     <MenuItem value={"DELIVERED"}>delivered</MenuItem>
                 </Select>
-            </Stack>
+            </FormControl>
 
             <Stack spacing={2} direction="row">
-                <Typography>
-                    Complete:
-                </Typography>
-                <Checkbox value={isComplete} onChange={handleChangeComplete} />
+                <FormControlLabel control={<Checkbox value={isComplete} onChange={handleChangeComplete}/>} label="Complete" />
             </Stack>
 
             <Button onClick={sendPost}>Send</Button>
