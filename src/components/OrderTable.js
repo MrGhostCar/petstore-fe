@@ -6,35 +6,19 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { Button, Tooltip } from '@mui/material';
 import Axios from "axios";
-import { Button } from '@mui/material';
+import { useState } from "react";
 
-export const OrderTable = ({ rows }) => {
+export const OrderTable = ({ rows, modifyOrder, deleteOrder }) => {
 
-    const modifyOrder = (id) => {
-        Axios.patch(`http://localhost:8080/store/order/${id}`,
-            [{
-                "op": "replace",
-                "path": "/complete",
-                "value": true
-            }],
-            {
-                headers: {
-                    'Content-Type': 'application/json-patch+json',
-                }
-            })
+    const [currentTooltip, setCurrentTooltip] = useState("");
+
+    const getOrderDetails = (id) => {
+        Axios.get(`http://localhost:8080/store/order/${id}`)
             .then(function (response) {
                 console.log(response);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    }
-
-    const deleteOrder = (id) => {
-        Axios.delete(`http://localhost:8080/store/order/${id}`)
-            .then(function (response) {
-                console.log(response);
+                setCurrentTooltip(response.data.shipDate);
             })
             .catch(function (error) {
                 console.log(error);
@@ -43,7 +27,7 @@ export const OrderTable = ({ rows }) => {
 
     return (
         <TableContainer component={Paper}>
-            <Table sx={{  }} aria-label="simple table">
+            <Table sx={{}} aria-label="simple table">
                 <TableHead>
                     <TableRow>
                         <TableCell>Id</TableCell>
@@ -56,17 +40,25 @@ export const OrderTable = ({ rows }) => {
                 </TableHead>
                 <TableBody>
                     {rows.map((row) => (
-                        <TableRow
-                            key={row.id}
-                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                        >
-                            <TableCell>{row.id}</TableCell>
-                            <TableCell>{row.petId}</TableCell>
-                            <TableCell>{row.quantity}</TableCell>
-                            <TableCell>{row.complete + ""}</TableCell>
-                            <TableCell><Button onClick={() => modifyOrder(row.id)} >Complete</Button></TableCell>
-                            <TableCell><Button onClick={() => deleteOrder(row.id)} >Delete </Button></TableCell>
-                        </TableRow>
+                        <Tooltip key={row.id}
+                            title={currentTooltip}
+                            onOpen={() => { getOrderDetails(row.id) }}
+                            enterDelay={500}
+                            enterNextDelay={500}
+                            arrow
+                            placement="right">
+                            <TableRow
+                                key={row.id}
+                                on
+                            >
+                                <TableCell>{row.id}</TableCell>
+                                <TableCell>{row.petId}</TableCell>
+                                <TableCell>{row.quantity}</TableCell>
+                                <TableCell>{row.complete + ""}</TableCell>
+                                <TableCell><Button onClick={() => modifyOrder(row.id)} >Complete</Button></TableCell>
+                                <TableCell><Button onClick={() => deleteOrder(row.id)} >Delete </Button></TableCell>
+                            </TableRow>
+                        </Tooltip>
                     ))}
                 </TableBody>
             </Table>

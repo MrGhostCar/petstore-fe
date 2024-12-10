@@ -45,6 +45,7 @@ export const OrderAdder = () => {
 
     return (
         <Stack spacing={2} id="orderMaker">
+            <h1>Add order </h1>
             <TextField value={petId} onChange={handleChangePet} label="PetID" variant="filled" />
             <TextField value={quantity} onChange={handleChangeQuantity} label="Quantity" variant="filled" />
             <TextField value={shipDate} onChange={handleChangeDate} label="Quantity" variant="filled" />
@@ -69,6 +70,5 @@ export const OrderAdder = () => {
 
             <Button onClick={sendPost}>Send</Button>
         </Stack>
-
     );
 }
