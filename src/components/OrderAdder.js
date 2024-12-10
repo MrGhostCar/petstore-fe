@@ -48,7 +48,7 @@ export const OrderAdder = () => {
             <h1>Add order </h1>
             <TextField value={petId} onChange={handleChangePet} label="PetID" variant="filled" />
             <TextField value={quantity} onChange={handleChangeQuantity} label="Quantity" variant="filled" />
-            <TextField value={shipDate} onChange={handleChangeDate} label="Quantity" variant="filled" />
+            <TextField value={shipDate} onChange={handleChangeDate} label="Ship date" variant="filled" />
             <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">Status</InputLabel>
                 <Select
